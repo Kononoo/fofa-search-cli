@@ -16,7 +16,7 @@ type FofaResponse struct {
 
 func searchFofa(apiKey, query string) ([][]string, error) {
 	encodedQuery := base64.StdEncoding.EncodeToString([]byte(query))
-	log.Println("请求的参数：", apiKey, encodedQuery, pageSize)
+	log.Printf("FOFA-请求的参数：apiKey:%s, encodedQuery:%s, pageSize:%s", apiKey, encodedQuery, pageSize)
 	url := fmt.Sprintf("https://fofa.info/api/v1/search/all?key=%s&qbase64=%s&size=%d", apiKey, encodedQuery, pageSize)
 
 	resp, err := http.Get(url)

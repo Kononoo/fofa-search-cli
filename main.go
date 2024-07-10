@@ -36,7 +36,7 @@ func main() {
 	log.Println("命令解析完毕...")
 	// 读取配置文件（如果存在），如果没指定则采用config文件中的配置
 	LoadConfig()
-	log.Println("配置参数：", apiKey, query, proxy, concurrency, pageSize)
+	log.Printf("参数配置 -> apikey：%s, query：%s, proxy：%s, concurrency：%d, pageSize：%d", apiKey, query, proxy, concurrency, pageSize)
 
 	// 进行FOFA搜索
 	results, err := searchFofa(apiKey, query)
