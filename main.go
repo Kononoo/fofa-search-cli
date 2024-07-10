@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"sync"
 )
 
 // 请求参数
@@ -52,4 +53,30 @@ func main() {
 
 	// 对网站进行截图并保存
 	takeScreenshots(results)
+}
+
+// 网站截图保存
+func takeScreenshots(results [][]string) {
+	var wg sync.WaitGroup                   // WaitGroup 用于等待所有 goroutine 完成
+	sem := make(chan struct{}, concurrency) // sem 是一个带有容量的 channel，用于控制同时运行的 goroutine 数量。
+
+	for i, result := range results {
+		wg.Add(1)
+		sem <- struct{}{}
+
+		go func(url string, index int) {
+			defer wg.Done()
+			defer func() { <-sem }()
+
+			finalUrl, title, filePath, err := GetScreenShot(url, proxy, index)
+			if err != nil {
+				log.Printf("截图失败：%v\n", err)
+				return
+			}
+
+			fmt.Printf("URL：%s, 状态码：%s, 网站标题：%s, 截图文件：%s\n", finalUrl, "200", title, filePath)
+		}(result[0], i)
+	}
+
+	wg.Wait()
 }
