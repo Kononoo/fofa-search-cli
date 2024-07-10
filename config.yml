@@ -1,0 +1,5 @@
+api_key: "c9b5570171fccebc5c24ae16b32f9bb4"    # FOFA-API
+query: "title=example"                         # 可以在这配置查询语句
+proxy: "http://127.0.0.1:7890"                 # 配置代理转发
+concurrency: 5                                 # 配置并发截图数量
+page_size: 100                                 # 配置从FOFA查询结果数量

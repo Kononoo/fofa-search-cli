@@ -1,7 +1,0 @@
-{
-  "api_key": "c9b5570171fccebc5c24ae16b32f9bb4",
-  "query": "title=\"baidu\"",
-  "proxy": "http://127.0.0.1:7890",
-  "concurrency": 5,
-  "page_size": 100
-}

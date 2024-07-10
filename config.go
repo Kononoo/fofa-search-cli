@@ -1,28 +1,31 @@
 package main
 
 import (
-	"encoding/json"
+	"gopkg.in/yaml.v2"
+	"log"
 	"os"
 )
 
 type Config struct {
-	ApiKey      string `json:"api_key"`
-	Query       string `json:"query"`
-	Proxy       string `json:"proxy"`
-	Concurrency int    `json:"concurrency"`
-	PageSize    int    `json:"page_size"`
+	ApiKey      string `yaml:"api_key"`
+	Query       string `yaml:"query"`
+	Proxy       string `yaml:"proxy"`
+	Concurrency int    `yaml:"concurrency"`
+	PageSize    int    `yaml:"page_size"`
 }
 
 func LoadConfig() {
-	file, err := os.Open("config.json")
+	file, err := os.Open("config.yml")
 	if err != nil {
+		log.Printf("打开配置文件错误: %v\n", err)
 		return
 	}
 	defer file.Close()
 
 	config := Config{}
-	err = json.NewDecoder(file).Decode(&config)
+	err = yaml.NewDecoder(file).Decode(&config)
 	if err != nil {
+		log.Printf("解析配置文件错误: %v\n", err)
 		return
 	}
 
