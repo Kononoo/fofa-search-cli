@@ -16,9 +16,9 @@ func GetScreenShot(url string, proxy string, index int) (finalUrl string, title 
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 	defer cancel()
 
-	opts := append(chromedp.DefaultExecAllocatorOptions[:],
-		chromedp.ProxyServer(proxy),
-		chromedp.WindowSize(1920, 1080),
+	opts := append(chromedp.DefaultExecAllocatorOptions[:], //默认配置必须有
+		chromedp.ProxyServer(proxy),     //代理服务器
+		chromedp.WindowSize(1920, 1080), // 截图大小
 		chromedp.Flag("ignore-certificate-errors", "1"),
 	)
 	ctx, cancel = chromedp.NewExecAllocator(ctx, opts...)
@@ -27,6 +27,7 @@ func GetScreenShot(url string, proxy string, index int) (finalUrl string, title 
 	defer cancel()
 
 	var buf []byte
+	// 获取截图并获取将跳转网站的url和标题
 	if err := chromedp.Run(ctx,
 		chromedp.Tasks{
 			chromedp.Navigate(url),
@@ -38,9 +39,16 @@ func GetScreenShot(url string, proxy string, index int) (finalUrl string, title 
 		return "", "", "", err
 	}
 
-	filePath = fmt.Sprintf("screenshot-%d.png", index)
-	if err := os.WriteFile(filePath, buf, 0644); err != nil {
+	// 确保result目录存在
+	if _, err := os.Stat("result"); os.IsNotExist(err) {
+		os.Mkdir("result", 0755)
+	}
+
+	// 保存到本地
+	filePath = fmt.Sprintf("result/%d.png", index)
+	if err := os.WriteFile(filePath, buf, 0o644); err != nil {
 		return "", "", "", err
 	}
+
 	return finalUrl, title, filePath, nil
 }

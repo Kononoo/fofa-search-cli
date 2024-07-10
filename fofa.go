@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 )
 
@@ -14,18 +15,14 @@ type FofaResponse struct {
 }
 
 func searchFofa(apiKey, query string) ([][]string, error) {
-	println("请求的query:", query)
 	encodedQuery := base64.StdEncoding.EncodeToString([]byte(query))
-	println("请求的参数：", apiKey, encodedQuery, pageSize)
+	log.Println("请求的参数：", apiKey, encodedQuery, pageSize)
 	url := fmt.Sprintf("https://fofa.info/api/v1/search/all?key=%s&qbase64=%s&size=%d", apiKey, encodedQuery, pageSize)
 
 	resp, err := http.Get(url)
 	if err != nil {
 		return nil, err
 	}
-	println("FOFA-API请求结果：", resp.Body)
-	println("%v", resp)
-
 	defer resp.Body.Close()
 
 	body, err := ioutil.ReadAll(resp.Body)
