@@ -3,6 +3,10 @@
 
 ## 项目简介
 FOFA-命令行工具：给定一个搜索语法，从fofa搜索结果，并对结果中的网站调用浏览器截图， 输出网站列表和截图结果列表。
+1. 支持命令行参数输入搜索关键词。
+2. 获取 FOFA 搜索结果，包括网站 URL、状态码、网站标题。
+3. 对网站进行截图并保存截图文件。 
+4. 输出网站信息及截图结果。
 
 ## 额外功能项
 1. 支持配置代理转发
@@ -12,9 +16,25 @@ FOFA-命令行工具：给定一个搜索语法，从fofa搜索结果，并对�
 
 ## 使用说明
 ```
-./fofa-search-cli -k FOFA_API_KEY -q "title=\"百度\""
-```
+.\fofa-search-cli.ext -k FOFA_API_KEY -q "title=百度"
 
+.\fofa-search-cli.exe -q "domain=baidu.com" 
+```
+### 参数配置：
+- k：FOFA API Key。
+- q：搜索关键词。
+- proxy：代理地址。
+- concurrency：并发截图数量。
+- size：每页查询数量。
+### 配置文件
+可以通过 config.yml 文件配置参数，示例：
+```
+api_key: "c9b5570171fccebc5c24ae16b32f9bb4"    # FOFA-API
+query: "title=example"                         # 可以在这配置查询语句
+proxy: "http://127.0.0.1:7890"                 # 配置代理转发
+concurrency: 5                                 # 配置并发截图数量
+page_size: 100                                 # 配置从FOFA查询结果数量
+```
 
 ## 项目构建
 ```

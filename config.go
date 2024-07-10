@@ -14,6 +14,7 @@ type Config struct {
 	PageSize    int    `yaml:"page_size"`
 }
 
+// LoadConfig 函数用于读取配置文件并更新全局变量。
 func LoadConfig() {
 	file, err := os.Open("config.yml")
 	if err != nil {
