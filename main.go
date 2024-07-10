@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"log"
 )
 
@@ -35,5 +36,16 @@ func main() {
 	// 读取配置文件（如果存在），如果没指定则采用config文件中的配置
 	LoadConfig()
 	log.Println("配置参数：", apiKey, query, proxy, concurrency, pageSize)
+
+	// 进行FOFA搜索
+	results, err := searchFofa(apiKey, query)
+	if err != nil {
+		fmt.Println("FOFA搜索错误:", err)
+		return
+	}
+	if len(results) == 0 {
+		fmt.Println("没有找到结果")
+		return
+	}
 
 }
