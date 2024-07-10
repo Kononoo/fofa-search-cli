@@ -48,4 +48,8 @@ func main() {
 		return
 	}
 
+	fmt.Println("正在进行截图操作步骤：", len(results))
+
+	// 对网站进行截图并保存
+	takeScreenshots(results)
 }
