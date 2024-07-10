@@ -32,5 +32,8 @@ func main() {
 	}
 
 	log.Println("命令解析完毕...")
+	// 读取配置文件（如果存在），如果没指定则采用config文件中的配置
+	LoadConfig()
+	log.Println("配置参数：", apiKey, query, proxy, concurrency, pageSize)
 
 }
